@@ -17,8 +17,7 @@ const Content = ({ parts }) => (
 )
 
 const Total = ({ parts }) => {
-  let exercises = 0;
-  parts.forEach(part => exercises += part.exercises);
+  let exercises = parts.reduce((total, part) => total + part.exercises, 0);
   return <p>Number of exercises {exercises}</p>
 }
 
