@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Directory from './components/Directory.jsx'
 import Form from './components/Form.jsx'
+import httpService from './services/httpService.js';
+const { getDirectory, postEntry } = httpService;
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -9,9 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(res => setPersons(res.data));
+    getDirectory().then(persons => setPersons(persons));
   }, []);
 
   const handleSubmit = (e) => {
@@ -19,12 +18,8 @@ const App = () => {
     if (persons.find(person => person.name === newName)) {
       alert(`${newName} is already added to the phonebook`)
     } else {
-      // post
-      axios
-        .post('http://localhost:3001/persons', { name: newName, number: newNumber })
-        .then(res => {
-          setPersons(persons.concat(res.data));
-        })
+      postEntry({ name: newName, number: newNumber })
+        .then(updatedPerson => setPersons(persons.concat(updatedPerson)));
     }
     setNewName('')
     setNewNumber('')
