@@ -1,60 +1,41 @@
 import { useState } from 'react'
+import Directory from './components/Directory.jsx'
+import Form from './components/Form.jsx'
 
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
   ])
   const [newName, setNewName] = useState('')
-  const [newNumber  , setNewNumber] = useState('');
-
-
+  const [newNumber, setNewNumber] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (persons.find(person => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook`);
+      alert(`${newName} is already added to the phonebook`)
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }));
+      setPersons(persons.concat({ name: newName, number: newNumber }))
     }
-    setNewName('');
-    setNewNumber('');
+    setNewName('')
+    setNewNumber('')
   }
 
   const handleChangeName = (e) => {
-    setNewName(e.target.value);
+    setNewName(e.target.value)
   }
 
   const handleChangeNumber = (e) => {
-    setNewNumber(e.target.value);
+    setNewNumber(e.target.value)
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleChangeName} />
-        </div>
-        <label htmlFor='number'>number:</label>
-        <input value={newNumber} onChange={handleChangeNumber} />
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form handleChangeNumber={handleChangeNumber} handleSubmit={handleSubmit} handleChangeName={handleChangeName}
+            newName={newName} newNumber={newNumber}
+      />
       <h2>Numbers</h2>
-      <table>
-        <tbody>
-          {persons.map(person => {
-            return (
-              <tr key={person.name}>
-                <td>{person.name}</td>
-                <td>{person.number}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-
+      <Directory persons={persons}/>
     </div>
   )
 }
