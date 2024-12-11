@@ -13,4 +13,10 @@ const postEntry = (data) => {
     .then(res => res.data)
 }
 
-export default {getDirectory, postEntry}
+const deleteEntry = (id) => {
+  return axios
+    .delete(`${URL}/${id}`)
+    .then(res => res.data.id === id)
+}
+
+export default { getDirectory, postEntry, deleteEntry }

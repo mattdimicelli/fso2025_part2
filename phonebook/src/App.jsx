@@ -40,7 +40,7 @@ const App = () => {
             newName={newName} newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Directory persons={persons}/>
+      <Directory persons={persons} setPersons={setPersons} />
     </div>
   )
 }
