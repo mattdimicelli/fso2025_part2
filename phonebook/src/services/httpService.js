@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'http://localhost:3001/persons'
+const URL = 'http://localhost:3001/api/persons'
 const getDirectory = () => {
   return axios
     .get(URL)
@@ -16,7 +16,7 @@ const postEntry = (data) => {
 const deleteEntry = (id) => {
   return axios
     .delete(`${URL}/${id}`)
-    .then(res => res.data.id === id)
+    .then(res => res.status === 204)
 }
 
 export default { getDirectory, postEntry, deleteEntry }
