@@ -15,12 +15,14 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (persons.find(person => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook`)
-    } else {
-      postEntry({ name: newName, number: newNumber })
-        .then(updatedPerson => setPersons(persons.concat(updatedPerson)));
-    }
+    postEntry({ name: newName, number: newNumber })
+      .then(entry => {
+        if (entry.newEntry) {
+          setPersons(persons.concat(entry.entry))
+        } else {
+          setPersons(persons.filter(person => person.name !== newName).concat(entry.entry))
+        }
+    });
     setNewName('')
     setNewNumber('')
   }
