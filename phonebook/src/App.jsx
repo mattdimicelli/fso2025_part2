@@ -12,23 +12,25 @@ const App = () => {
   const [notification, setNotification] = useState('');
 
   useEffect(() => {
-    getDirectory().then(persons => setPersons(persons));
+    (async () => {
+      const persons = await getDirectory();
+      setPersons(persons);
+    })();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    postEntry({ name: newName, number: newNumber })
-      .then(entry => {
-        if (entry.newEntry) {
-          setPersons(persons.concat(entry.entry))
-        } else {
-          setPersons(persons.filter(person => person.name !== newName).concat(entry.entry))
-        }
-      })
-      .catch(e => {
-        setNotification(e.response.data.error);
-        setTimeout(() => setNotification(''), 3000);
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const entry = await postEntry({ name: newName, number: newNumber });
+      if (entry.newEntry) {
+        setPersons(persons.concat(entry.entry))
+      } else {
+        setPersons(persons.filter(person => person.name !== newName).concat(entry.entry))
+      }
+    } catch (e) {
+      setNotification(e.response.data.error);
+      setTimeout(() => setNotification(''), 3000);
+    }
     setNewName('')
     setNewNumber('')
   }
